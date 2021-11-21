@@ -89,3 +89,12 @@ func (c *myConcern) Start() error {
 func (c *myConcern) GetStateManager() concern.IStateManager {
 	return c.StateManager
 }
+
+func newConcern(notifyChan chan<- concern.Notify) *myConcern {
+	c := &myConcern{extraKey: new(extraKey)}
+	// 默认是string格式的id
+	c.StateManager = concern.NewStateManagerWithStringID(Site, notifyChan)
+	// 如果要使用int64格式的id，可以用下面的
+	//c.StateManager = concern.NewStateManagerWithInt64ID(Site, notifyChan)
+	return c
+}
